@@ -1,7 +1,4 @@
-import { useQuiz } from "../contexts/QuizContext";
-
-function StartScreen() {
-  const { questions, dispatch } = useQuiz();
+function StartScreen({ questions, dispatch }) {
   return (
     <div className="start">
       <h2>Welcome to the React Quiz !</h2>
