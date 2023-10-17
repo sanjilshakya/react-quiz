@@ -1,8 +1,9 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 
 const QuizContext = createContext();
 
 const SECOND_PER_QUESTION = 30;
+const BASE_URL = "http://localhost:8000";
 
 const initialState = {
   questions: [],
@@ -61,6 +62,20 @@ function QuizProvider({ children }) {
   const { questions, status, index, answer, pointsEarned, secondsRemaining } =
     state;
   const totalPoints = questions.reduce((acc, cur) => acc + cur.points, 0);
+
+  useEffect(function () {
+    async function getQuestions() {
+      try {
+        // execute npm run server for fake API
+        const res = await fetch(`${BASE_URL}/questions`);
+        const data = await res.json();
+        dispatch({ type: "dataReceived", payload: data });
+      } catch (error) {
+        dispatch({ type: "dataFailed" });
+      }
+    }
+    getQuestions();
+  }, []);
 
   return (
     <QuizContext.Provider

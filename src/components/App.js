@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Loader from "./Loader";
@@ -13,24 +12,7 @@ import Timer from "./Timer";
 import { useQuiz } from "../contexts/QuizContext";
 
 export default function App() {
-  const { dispatch, status } = useQuiz();
-
-  useEffect(
-    function () {
-      async function getQuestions() {
-        try {
-          // execute npm run server for fake API
-          const res = await fetch("http://localhost:8000/questions");
-          const data = await res.json();
-          dispatch({ type: "dataReceived", payload: data });
-        } catch (error) {
-          dispatch({ type: "dataFailed" });
-        }
-      }
-      getQuestions();
-    },
-    [dispatch]
-  );
+  const { status } = useQuiz();
 
   return (
     <div className="app">
